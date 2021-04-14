@@ -564,9 +564,13 @@ public class WifiScanningServiceImpl extends IWifiScanner.Stub {
                 // WificondScannerImpl for filtering stale results.
                 long currentTimeInMillis = mClock.getElapsedSinceBootMillis();
                 return mCachedScanResults.stream()
-                        .filter(scanResult
+                /**
+                 *  Since we are getting wrong time stamp value for Hotspot AP from the down layer
+                 *  Hence temporarily Commenting this filter which is filtering out the Hotspot AP
+                 */
+                        /*.filter(scanResult
                                 -> ((currentTimeInMillis - (scanResult.timestamp / 1000))
-                                        < CACHED_SCAN_RESULTS_MAX_AGE_IN_MILLIS))
+                                        < CACHED_SCAN_RESULTS_MAX_AGE_IN_MILLIS))*/
                         .toArray(ScanResult[]::new);
             }
         }

@@ -615,7 +615,11 @@ public class WificondScannerImpl extends WifiScannerImpl implements Handler.Call
             for (int i = 0; i < mNativeScanResults.size(); ++i) {
                 ScanResult result = mNativeScanResults.get(i).getScanResult();
                 long timestamp_ms = result.timestamp / 1000; // convert us -> ms
-                if (timestamp_ms > mLastScanSettings.startTime) {
+                /**
+                 *  Since we are getting wrong time stamp value for Hotspot AP from the down layer
+                 *  Hence temporarily Commenting this filter which is filtering out the Hotspot AP
+                 */
+                //if (timestamp_ms > mLastScanSettings.startTime) {
                     if (mLastScanSettings.backgroundScanActive) {
                         backgroundScanResults.add(result);
                     }
@@ -624,9 +628,9 @@ public class WificondScannerImpl extends WifiScannerImpl implements Handler.Call
                                     result.frequency)) {
                         singleScanResults.add(result);
                     }
-                } else {
+                /*} else {
                     numFilteredScanResults++;
-                }
+                }*/
             }
             if (numFilteredScanResults != 0) {
                 Log.d(TAG, "Filtering out " + numFilteredScanResults + " scan results.");
